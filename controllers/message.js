@@ -23,6 +23,7 @@ exports.sendMessage = function(request, response) {
        console.error(err.message);
    } else {
      console.log("success");
+     response.sendStatus(200);
    }
 });
 };
@@ -35,7 +36,8 @@ exports.showReceiveMessage = function(request, response) {
 
 // Handle a POST request from Twilio for an incoming message
 exports.receiveMessageWebhook = function(request, response) {
-
+  console.log(request);
+  response.sendStatus(200);
 };
 
 // Update the configured Twilio number for this demo to send all incoming
