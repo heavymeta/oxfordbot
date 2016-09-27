@@ -1,5 +1,6 @@
 var twilio = require('twilio');
 var config = require('../config');
+var chrono = require('chrono-node')
 
 // Create an authenticated Twilio REST API client
 var client = twilio(config.accountSid, config.authToken);
@@ -38,7 +39,7 @@ exports.receiveMessageWebhook = function(request, response) {
   console.log(request.body.Body);
   response.send("I got it");
   client.messages.create({
-   body: 'So what you\'re saying is ' + request.body.Body,
+   body: 'So what you\'re saying is ' + chrono.parseDate(request.body.Body),
    to: config.myNumber,  // Text this number
    from: config.twilioNumber // From a valid Twilio number
 }, function(err, message) {
@@ -48,6 +49,7 @@ exports.receiveMessageWebhook = function(request, response) {
      console.log("success");
    }
 });
+
 };
 
 // Update the configured Twilio number for this demo to send all incoming
