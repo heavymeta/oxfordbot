@@ -13,6 +13,7 @@ ReminderSchema = new Schema({
   from:String,
   item:String,
   when:Date,
+  fired:Boolean,
 });
 
 var Reminder = mongoose.model('Reminder', ReminderSchema);
@@ -57,6 +58,7 @@ exports.receiveMessageWebhook = function(request, response) {
   myReminder.from = "+17187558562";
   myReminder.item = request.body.Body;
   myReminder.when = chrono.parseDate(request.body.Body);
+  myReminder.fired = false;
   myReminder.save(
   function(err){
     console.error("Error while saving");
@@ -78,8 +80,22 @@ exports.receiveMessageWebhook = function(request, response) {
 
 };
 
-// Update the configured Twilio number for this demo to send all incoming
-// messages to this server.
-exports.configureNumber = function(request, response) {
-
+function findReminders() {
+  var foundReminders = Reminder.find({
+    when: { $gt: new Date() },
+    where: { fired: false }
+  })
+  return foundReminders;
+}
+// Run a query to determine which messages need to be sent. Send them.
+exports.fireReminders = function(request, response) {
+  var query = findReminders();
+  query.exec(function(err,reminders){
+   if(err)
+      return console.log(err);
+   reminders.forEach(function(reminder){
+      console.log(reminder.item);
+   });
+});
+  //response.sendMessage(200);
 };
