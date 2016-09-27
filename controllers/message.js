@@ -23,7 +23,6 @@ exports.sendMessage = function(request, response) {
        console.error(err.message);
    } else {
      console.log("success");
-     response.sendStatus(200);
    }
 });
 };
@@ -38,6 +37,17 @@ exports.showReceiveMessage = function(request, response) {
 exports.receiveMessageWebhook = function(request, response) {
   console.log(request.body.Body);
   response.sendStatus(200);
+  client.messages.create({
+   body: 'So what you\'re saying is ' + request.body.Body,
+   to: config.myNumber,  // Text this number
+   from: config.twilioNumber // From a valid Twilio number
+}, function(err, message) {
+   if(err) {
+       console.error(err.message);
+   } else {
+     console.log("success");
+   }
+});
 };
 
 // Update the configured Twilio number for this demo to send all incoming
