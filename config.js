@@ -21,8 +21,8 @@ cfg.secret = 'keyboard cat';
 // A good practice is to store these string values as system environment
 // variables, and load them from there as we are doing below. Alternately,
 // you could hard code these values here as strings.
-cfg.accountSid = "AC38ab42729a3e839160005551452b7cf5";
-cfg.authToken = "43c4c3a1341616c97998ecb61c11141b";
+cfg.accountSid = "AC9da8e02953dc14e2cf46f01c513f5592";
+cfg.authToken = "b8e016ea151e9067e9930e90b6b88716";
 
 // A Twilio number you control - choose one from:
 // https://www.twilio.com/user/account/phone-numbers/incoming
