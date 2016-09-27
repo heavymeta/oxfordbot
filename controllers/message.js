@@ -37,6 +37,7 @@ exports.showReceiveMessage = function(request, response) {
 // Handle a POST request from Twilio for an incoming message
 exports.receiveMessageWebhook = function(request, response) {
   console.log("got the message");
+  response.sendMessage("Hey - got the message");
 };
 
 // Update the configured Twilio number for this demo to send all incoming
