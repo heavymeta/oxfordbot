@@ -4,7 +4,7 @@ var config = require('../config');
 // Create an authenticated Twilio REST API client
 var client = twilio(config.accountSid, config.authToken);
 
-// Render a form that will allow the user to send a text (or picture) message 
+// Render a form that will allow the user to send a text (or picture) message
 // to a phone number they entered.
 exports.showSendMessage = function(request, response) {
     response.render('sendMessage', {
@@ -14,7 +14,7 @@ exports.showSendMessage = function(request, response) {
 
 // Handle a form POST to send a message to a given number
 exports.sendMessage = function(request, response) {
-
+    console.log("in here, posting a message");
 };
 
 // Show a page displaying text/picture messages that have been sent to this
