@@ -14,7 +14,17 @@ exports.showSendMessage = function(request, response) {
 
 // Handle a form POST to send a message to a given number
 exports.sendMessage = function(request, response) {
-    console.log("in here, posting a message");
+  client.messages.create({
+   body: 'Hello from Node',
+   to: '+17187558562',  // Text this number
+   from: '+14126936731' // From a valid Twilio number
+}, function(err, message) {
+   if(err) {
+       console.error(err.message);
+   } else {
+     console.log("success");
+   }
+});
 };
 
 // Show a page displaying text/picture messages that have been sent to this
