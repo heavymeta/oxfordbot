@@ -59,7 +59,7 @@ exports.receiveMessageWebhook = function(request, response) {
   myReminder.when = chrono.parseDate(request.body.Body);
   myReminder.save(
   function(err){
-    console.error(err.message);
+    console.error("Error while saving");
   }
   );
 
@@ -77,22 +77,6 @@ exports.receiveMessageWebhook = function(request, response) {
 });
 
 };
-
-function parseAndSave(message) {
-var userModel = mongoose.model('User', userSchema);
-var test = new userModel({name: "test", password: "test"})
-
-console.log("me: " + test)
-
-test.save(function (err, test) {
-  console.log("saved?")
-  if (err) {
-    console.log("error");
-    return console.error(err);
-  }
-  console.log("saved!")
-});
-}
 
 // Update the configured Twilio number for this demo to send all incoming
 // messages to this server.
