@@ -58,7 +58,6 @@ exports.receiveMessageWebhook = function(request, response) {
 
 // Save the remimder to the database
 
-  console.log(request.body);
   var myReminder = new Reminder()
   myReminder.from = request.body.From;
   myReminder.item = request.body.Body;
@@ -90,7 +89,7 @@ exports.receiveMessageWebhook = function(request, response) {
 function findReminders() {
   var foundReminders = Reminder.find({
     fired: false,
-    when: { $gt: new Date() }
+    when: { $gt: moment().utcOffset('-0700') }
   })
   return foundReminders;
 }
