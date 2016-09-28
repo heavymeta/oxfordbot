@@ -56,8 +56,10 @@ exports.receiveMessageWebhook = function(request, response) {
   var parsedTime = chrono.parseDate(request.body.Body);
   var parsedTimeLocal = moment(parsedTime).format(' dddd MMM DD, h:mm a ');
 
-  var myReminder = new Reminder()
+// Save the remimder to the database
 
+  console.log(request.body);
+  var myReminder = new Reminder()
   myReminder.from = "+17187558562";
   myReminder.item = request.body.Body;
   myReminder.when = chrono.parseDate(request.body.Body);
