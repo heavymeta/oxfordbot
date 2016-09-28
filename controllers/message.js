@@ -87,9 +87,10 @@ exports.receiveMessageWebhook = function(request, response) {
 };
 
 function findReminders() {
+  console.log(moment(new Date()).format());
   var foundReminders = Reminder.find({
     fired: false,
-    when: { $gt: moment().utcOffset('-0700') }
+    when: { $gt: moment(new Date()).format() }
   })
   return foundReminders;
 }
