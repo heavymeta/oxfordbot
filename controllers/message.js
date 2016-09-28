@@ -61,7 +61,7 @@ exports.receiveMessageWebhook = function(request, response) {
   var myReminder = new Reminder()
   myReminder.from = request.body.From;
   myReminder.item = request.body.Body;
-  myReminder.when = chrono.parseDate(request.body.Body);
+  myReminder.when = moment(chrono.parseDate(request.body.Body)).format();
   myReminder.fired = false;
   myReminder.save(
   function(err){
@@ -90,7 +90,7 @@ function findReminders() {
   console.log(moment(new Date()).format());
   var foundReminders = Reminder.find({
     fired: false,
-    when: { $gt: moment(new Date()).format() }
+    when: { $gt: moment().utcOffset('-0700') }
   })
   return foundReminders;
 }
