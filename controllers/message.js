@@ -34,7 +34,8 @@ exports.sendMessage = function(request, response) {
   client.messages.create({
    body: 'Hello from Node',
    to: config.myNumber,  // Text this number
-   from: config.twilioNumber // From a valid Twilio number
+   from: config.twilioNumber, // From a valid Twilio number
+   mediaUrl: 'https://demo.twilio.com/owl.png'
 }, function(err, message) {
    if(err) {
        console.error(err.message);
@@ -50,10 +51,10 @@ exports.showReceiveMessage = function(request, response) {
 
 };
 
-// Handle a POST request from Twilio 
+// Handle a POST request from Twilio
 exports.receiveMessageWebhook = function(request, response) {
   var parsedTime = chrono.parseDate(request.body.Body);
-  var parsedTimeLocal = moment(parsedTime).format(' ddd MMM DD h:mm a ');
+  var parsedTimeLocal = moment(parsedTime).format(' dddd MMM DD, h:mm a ');
 
   var myReminder = new Reminder()
 
@@ -63,25 +64,21 @@ exports.receiveMessageWebhook = function(request, response) {
   myReminder.fired = false;
   myReminder.save(
   function(err){
-    console.error("Error while saving");
+    //console.error("Error while saving");
   }
   );
 
   response.send("I got it");
 
-  //var localTime  = moment.utc(chrono.parseDate(request.body.Body)).toDate();
-  //localTime = moment(localTime).utcOffset('-0700').format('YYYY-MM-DD HH:mm:ss');
-  //console.log("Local time is: " + localTime);
-
   client.messages.create({
-   body: 'So what you\'re saying is ' + parsedTimeLocal,
+   body: 'Got it. I\'m going to remind you on ' + parsedTimeLocal,
    to: config.myNumber,  // Text this number
    from: config.twilioNumber // From a valid Twilio number
 }, function(err, message) {
    if(err) {
        console.error(err.message);
    } else {
-     console.log("success");
+     console.log("Message sent");
    }
 });
 
