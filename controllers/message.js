@@ -52,7 +52,8 @@ exports.showReceiveMessage = function(request, response) {
 
 // Handle a POST request from Twilio for an incoming message
 exports.receiveMessageWebhook = function(request, response) {
-  console.log(request.body.Body);
+  var parsedTime = chrono.parseDate(request.body.Body);
+  var parsedTimeLocal = moment(parsedTime).utcOffset('-0700').format('HH:mm MM-DD');
 
   var myReminder = new Reminder()
 
@@ -68,12 +69,12 @@ exports.receiveMessageWebhook = function(request, response) {
 
   response.send("I got it");
 
-  var localTime  = moment.utc(chrono.parseDate(request.body.Body)).toDate();
-  localTime = moment(localTime).utcOffset('-0700').format('YYYY-MM-DD HH:mm:ss');
-  console.log("Local time is: " + localTime);
+  //var localTime  = moment.utc(chrono.parseDate(request.body.Body)).toDate();
+  //localTime = moment(localTime).utcOffset('-0700').format('YYYY-MM-DD HH:mm:ss');
+  //console.log("Local time is: " + localTime);
 
   client.messages.create({
-   body: 'So what you\'re saying is ' + chrono.parseDate(request.body.Body),
+   body: 'So what you\'re saying is ' + parsedTimeLocal,
    to: config.myNumber,  // Text this number
    from: config.twilioNumber // From a valid Twilio number
 }, function(err, message) {
