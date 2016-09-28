@@ -69,7 +69,7 @@ exports.receiveMessageWebhook = function(request, response) {
   response.send("I got it");
 
   var localTime  = moment.utc(chrono.parseDate(request.body.Body)).toDate();
-  localTime = moment(localTime).format('YYYY-MM-DD HH:mm:ss');
+  localTime = moment(localTime).utcOffset('-0700').format('YYYY-MM-DD HH:mm:ss');
   console.log("Local time is: " + localTime);
 
   client.messages.create({
