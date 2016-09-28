@@ -60,7 +60,7 @@ exports.receiveMessageWebhook = function(request, response) {
 
   console.log(request.body);
   var myReminder = new Reminder()
-  myReminder.from = "+17187558562";
+  myReminder.from = request.body.From;
   myReminder.item = request.body.Body;
   myReminder.when = chrono.parseDate(request.body.Body);
   myReminder.fired = false;
@@ -75,8 +75,8 @@ exports.receiveMessageWebhook = function(request, response) {
   client.messages.create({
    body: 'Got it. I\'m going to remind you on ' + parsedTimeLocal,
    to: config.myNumber,  // Text this number
-   from: config.twilioNumber, // From a valid Twilio number
-    mediaUrl: 'https://demo.twilio.com/owl.png'
+   from: config.twilioNumber // From a valid Twilio number
+   //mediaUrl: 'https://demo.twilio.com/owl.png'
 }, function(err, message) {
    if(err) {
        console.error(err.message);
