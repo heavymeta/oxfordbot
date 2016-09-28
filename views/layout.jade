@@ -4,13 +4,13 @@ html(lang='en')
     title= title || 'Twilio Starter Project for Node.js and Express'
 
     // Twilio shortcut icons
-    link(rel='shortcut icon', 
+    link(rel='shortcut icon',
       href='//twilio.com/bundles/marketing/img/favicons/favicon.ico')
-    link(rel='apple-touch-icon', 
+    link(rel='apple-touch-icon',
       href='//twilio.com/bundles/marketing/img/favicons/favicon_57.png')
-    link(rel='apple-touch-icon', sizes='72x72', 
+    link(rel='apple-touch-icon', sizes='72x72',
       href='/bundles/marketing/img/favicons/favicon_72.png')
-    link(rel='apple-touch-icon' sizes='114x114' 
+    link(rel='apple-touch-icon' sizes='114x114'
       href='//twilio.com/bundles/marketing/img/favicons/favicon_114.png')
 
     // Include Font Awesome Icons
@@ -18,9 +18,9 @@ html(lang='en')
       href='//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css')
 
     // Twitter Bootstrap included for some basic styling
-    link(rel='stylesheet', 
+    link(rel='stylesheet',
       href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')
-    link(rel='stylesheet', 
+    link(rel='stylesheet',
       href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css')
 
     // HTML 5 shims for older IE
@@ -50,8 +50,8 @@ html(lang='en')
         #navbar.navbar-collapse.collapse
           ul.nav.navbar-nav.navbar-right
             li.dropdown
-              a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', 
-                aria-expanded='false') Messaging 
+              a.dropdown-toggle(href='#', data-toggle='dropdown', role='button',
+                aria-expanded='false') Messaging
                 span.caret
 
               ul.dropdown-menu(role='menu')
@@ -61,8 +61,8 @@ html(lang='en')
                   a(href='/message') Receive Messages
 
             li.dropdown
-              a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', 
-                aria-expanded='false') Voice 
+              a.dropdown-toggle(href='#', data-toggle='dropdown', role='button',
+                aria-expanded='false') Voice
                 span.caret
 
               ul.dropdown-menu(role='menu')
@@ -80,8 +80,6 @@ html(lang='en')
       block content
 
     footer.container.
-      Made with <i class="fa fa-heart"></i> by your pals 
-      <a href="http://www.twilio.com">@twilio</a>.
 
     // Include jQuery and Bootstrap scripts
     script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js')

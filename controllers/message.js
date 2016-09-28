@@ -4,6 +4,8 @@ var chrono = require('chrono-node');
 var mongoose = require('mongoose');
 var moment = require('moment');
 
+var friends = { "Dan": "+17187558562", "Rachel": "+17187558562", "Sam": "+17187558562" };
+
 // Create an authenticated Twilio REST API client
 var client = twilio(config.accountSid, config.authToken);
 
@@ -15,6 +17,8 @@ ReminderSchema = new Schema({
   item:String,
   when:Date,
   fired:Boolean,
+  buddy: String,
+  buddyNumber:String
 });
 
 var Reminder = mongoose.model('Reminder', ReminderSchema);
@@ -47,14 +51,57 @@ exports.sendMessage = function(request, response) {
 
 // Show a page displaying text/picture messages that have been sent to this
 // web application, which we have stored in the database
-exports.showReceiveMessage = function(request, response) {
+exports.testParsing = function(request, response) {
 
+  var message = "Ask Rachel to remind me to take the trash out tomorrow morning at 7am";
+  var words = message.split(" ");
+
+  var lastWord;
+
+  words.forEach(function(word){
+    for (var property in friends) {
+      if (friends.hasOwnProperty(property)) {
+        if (property == word) {
+          if (lastWord == "Ask") {
+            console.log("found a friend " + friends[property] + " " + lastWord);
+          }
+        }
+      }
+    }
+    lastWord = word;
+  });
 };
+
+function findBuddy(message) {
+  var words = message.split(" ");
+  var lastWord = null;
+  var foundBuddy = null;
+
+  words.forEach(function(word){
+    for (var property in friends) {
+      if (friends.hasOwnProperty(property)) {
+        if (property == word) {
+          if (lastWord == "Ask") {
+            console.log("found a friend " + friends[property] + " " + lastWord);
+            foundBuddy = friends;
+          }
+        }
+      }
+    }
+    lastWord = word;
+  });
+}
 
 // Handle a POST request from Twilio
 exports.receiveMessageWebhook = function(request, response) {
-  var parsedTime = chrono.parseDate(request.body.Body);
+  var message = request.body.Body;
+  var parsedTime = chrono.parseDate(message);
   var parsedTimeLocal = moment(parsedTime).format(' dddd MMM DD, h:mm a ');
+  var parsedMessage = message.split(" ");
+
+  // Look for buddy reminders to set
+  var buddy = findBuddy(message);
+  console.log ("This is your buddy " + buddy);
 
   // Save the remimder to the database
 
@@ -86,6 +133,7 @@ exports.receiveMessageWebhook = function(request, response) {
 
 };
 
+// Find all the reminders that have not been sent
 function findReminders() {
   console.log(moment(new Date()).format());
   var foundReminders = Reminder.find({
