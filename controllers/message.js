@@ -82,11 +82,34 @@ exports.receiveMessageWebhook = function(request, response) {
 
 function findReminders() {
   var foundReminders = Reminder.find({
-    when: { $gt: new Date() },
-    where: { fired: false }
+    fired: false,
+    when: { $gt: new Date() }
   })
   return foundReminders;
 }
+
+function sendReminders(reminder) {
+  client.messages.create({
+   body: reminder.item,
+   to: reminder.from,  // Text this number
+   from: config.twilioNumber // From a valid Twilio number
+  }, function(err, message) {
+   if(err) {
+       console.error(err.message);
+   } else {
+     console.log("Successfully reminded: " + reminder.item);
+     markSent(reminder);
+   }
+  });
+}
+
+function markSent(reminder) {
+  Reminder.update({_id: reminder._id },{"$set":{fired:true}},{ multi: false }, function(err, affected, resp) {
+   console.log(affected);
+});
+  console.log("Marked as sent: " + reminder._id);
+}
+
 // Run a query to determine which messages need to be sent. Send them.
 exports.fireReminders = function(request, response) {
   var query = findReminders();
@@ -94,7 +117,8 @@ exports.fireReminders = function(request, response) {
    if(err)
       return console.log(err);
    reminders.forEach(function(reminder){
-      console.log(reminder.item);
+      sendReminders(reminder);
+      console.log("Found: " + reminder.item);
    });
 });
   //response.sendMessage(200);
