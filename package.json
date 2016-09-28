@@ -32,9 +32,9 @@
     "express-session": "^1.10.3",
     "http-auth": "^2.2.5",
     "jade": "^1.9.2",
+    "moment": "^2.15.1",
     "mongoose": "latest",
     "morgan": "^1.5.1",
-    "time": "^0.11.4",
     "twilio": "^1.11.1"
   },
   "devDependencies": {

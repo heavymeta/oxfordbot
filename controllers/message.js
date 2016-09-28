@@ -2,7 +2,7 @@ var twilio = require('twilio');
 var config = require('../config');
 var chrono = require('chrono-node');
 var mongoose = require('mongoose');
-var time = require('time');
+var moment = require('moment');
 
 // Create an authenticated Twilio REST API client
 var client = twilio(config.accountSid, config.authToken);
@@ -67,8 +67,13 @@ exports.receiveMessageWebhook = function(request, response) {
   );
 
   response.send("I got it");
+
+  var localTime  = moment.utc(chrono.parseDate(request.body.Body)).toDate();
+  localTime = moment(localTime).format('YYYY-MM-DD HH:mm:ss');
+  console.log("Local time is: " + localTime);
+
   client.messages.create({
-   body: 'So what you\'re saying is ' + chrono.parseDate(request.body.Body).toString(),
+   body: 'So what you\'re saying is ' + chrono.parseDate(request.body.Body),
    to: config.myNumber,  // Text this number
    from: config.twilioNumber // From a valid Twilio number
 }, function(err, message) {
