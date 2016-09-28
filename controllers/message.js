@@ -73,7 +73,8 @@ exports.receiveMessageWebhook = function(request, response) {
   client.messages.create({
    body: 'Got it. I\'m going to remind you on ' + parsedTimeLocal,
    to: config.myNumber,  // Text this number
-   from: config.twilioNumber // From a valid Twilio number
+   from: config.twilioNumber, // From a valid Twilio number
+    mediaUrl: 'https://demo.twilio.com/owl.png'
 }, function(err, message) {
    if(err) {
        console.error(err.message);
