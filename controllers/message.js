@@ -53,7 +53,7 @@ exports.showReceiveMessage = function(request, response) {
 // Handle a POST request from Twilio for an incoming message
 exports.receiveMessageWebhook = function(request, response) {
   var parsedTime = chrono.parseDate(request.body.Body);
-  var parsedTimeLocal = moment(parsedTime).utcOffset('-0700').format('HH:mm MM-DD');
+  var parsedTimeLocal = moment(parsedTime).utcOffset('-0700').format(' dd MMM DD h:m a ');
 
   var myReminder = new Reminder()
 
