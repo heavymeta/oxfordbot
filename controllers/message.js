@@ -91,6 +91,7 @@ function findBuddy(message) {
     }
     lastWord = word;
   });
+  console.log("this is foundBuddy " + foundBuddy);
   return foundBuddy;
 }
 
