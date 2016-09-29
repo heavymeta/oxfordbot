@@ -118,78 +118,106 @@ exports.receiveMessageWebhook = function(request, response) {
         }
       );
       console.log("New user created!");
-    }
-  })
-
-  // Look for buddy reminders to set
-  var buddy = findBuddy(message);
-
-
-  // Save the remimder to the database
-
-  var myReminder = new Reminder()
-  myReminder.from = request.body.From;
-  myReminder.item = request.body.Body;
-  myReminder.when = moment(chrono.parseDate(request.body.Body)).format();
-  myReminder.fired = false;
-
-  if (buddy) {
-    myReminder.buddy = buddy.name;
-    myReminder.buddyNumber = buddy.number;
-  }
-  myReminder.save(
-    function(err){
-      //console.error("Error while saving");
-    }
-  );
-
-  response.send("I got it");
-
-  var expressions = [ "Cool!", "Got it!", "I'm on it.", "Ok then!" ];
-  var sel = getRandomInt(0, expressions.length);
-
-  client.messages.create({
-    body: expressions[sel] + ' I\'m going to remind you on ' + parsedTimeLocal,
-    to: config.myNumber,
-    from: config.twilioNumber
-    //mediaUrl: 'https://demo.twilio.com/owl.png'
-  }, function(err, message) {
-    if(err) {
-      console.error(err.message);
+      client.messages.create({
+        body: 'Hi I\'m Oxfordbot! Just text in what you want to do and when, and I\'ll remind you to do it 30 mins before.',
+        to: config.myNumber,
+        from: config.twilioNumber
+        //mediaUrl: 'https://demo.twilio.com/owl.png'
+      }, function(err, message) {
+        if(err) {
+          console.error(err.message);
+        } else {
+          console.log("Message sent");
+        }
+      });
     } else {
-      console.log("Message sent");
+
+      if (parsedTimeLocal != "Invalid date") {
+      // Look for buddy reminders to set
+      var buddy = findBuddy(message);
+
+
+      // Save the remimder to the database
+
+      var myReminder = new Reminder()
+      myReminder.from = request.body.From;
+      myReminder.item = request.body.Body;
+      myReminder.when = moment(chrono.parseDate(request.body.Body)).format();
+      myReminder.fired = false;
+
+      if (buddy) {
+        myReminder.buddy = buddy.name;
+        myReminder.buddyNumber = buddy.number;
+      }
+      myReminder.save(
+        function(err){
+          //console.error("Error while saving");
+        }
+      );
+
+      response.send("I got it");
+
+      var expressions = [ "Cool!", "Got it!", "I'm on it.", "Ok then!" ];
+      var sel = getRandomInt(0, expressions.length);
+
+      client.messages.create({
+        body: expressions[sel] + ' I\'m going to remind you on ' + parsedTimeLocal,
+        to: config.myNumber,
+        from: config.twilioNumber
+        //mediaUrl: 'https://demo.twilio.com/owl.png'
+      }, function(err, message) {
+        if(err) {
+          console.error(err.message);
+        } else {
+          console.log("Message sent");
+        }
+      });
+
+      if (buddy) {
+        client.messages.create({
+          body: 'I\'ll also text your friend, ' + buddy.name + ', and ask them to remind you 30 minutes ahead of time.',
+          to: config.myNumber,
+          from: config.twilioNumber
+          //mediaUrl: 'https://demo.twilio.com/owl.png'
+        }, function(err, message) {
+          if(err) {
+            console.error(err.message);
+          } else {
+            console.log("Message sent");
+          }
+        });
+
+        client.messages.create({
+          body: 'Hey ' + buddy.name + '! Your friend Ian asked for you to call and remind them to do something at ' + parsedTimeLocal,
+          to: buddy.number,
+          from: config.twilioNumber
+          //mediaUrl: 'https://demo.twilio.com/owl.png'
+        }, function(err, message) {
+          if(err) {
+            console.error(err.message);
+          } else {
+            console.log("Message sent");
+          }
+        });
+
+      }
+    } else {
+      client.messages.create({
+        body: 'Whoops. Could you be a little more specific? I didn\'t get that.',
+        to: config.myNumber,
+        from: config.twilioNumber
+        //mediaUrl: 'https://demo.twilio.com/owl.png'
+      }, function(err, message) {
+        if(err) {
+          console.error(err.message);
+        } else {
+          console.log("Message sent");
+        }
+      });
     }
-  });
+    }
 
-  if (buddy) {
-    client.messages.create({
-      body: 'I\'ll also text your friend, ' + buddy.name + ', and ask them to remind you 30 minutes ahead of time.',
-      to: config.myNumber,
-      from: config.twilioNumber
-      //mediaUrl: 'https://demo.twilio.com/owl.png'
-    }, function(err, message) {
-      if(err) {
-        console.error(err.message);
-      } else {
-        console.log("Message sent");
-      }
-    });
-
-    client.messages.create({
-      body: 'Hey ' + buddy.name + '! Your friend Ian asked for you to call and remind them to do something at ' + parsedTimeLocal,
-      to: buddy.number,
-      from: config.twilioNumber
-      //mediaUrl: 'https://demo.twilio.com/owl.png'
-    }, function(err, message) {
-      if(err) {
-        console.error(err.message);
-      } else {
-        console.log("Message sent");
-      }
-    });
-
-  }
-
+  })
 };
 
 // Find all the reminders that have not been sent
