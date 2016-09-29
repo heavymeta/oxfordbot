@@ -105,7 +105,7 @@ exports.receiveMessageWebhook = function(request, response) {
 
 
   var foundReminders = User.find({ number: request.body.From });
-  console.log("Number " + foundReminder.number);
+  console.log("Number " + foundReminders.number);
     if (!foundReminders.number) {
       console.log("Creating a new user")
       var newUser = new User()
