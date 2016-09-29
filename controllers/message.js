@@ -21,7 +21,13 @@ ReminderSchema = new Schema({
   buddyNumber:String
 });
 
+UserSchema = new Schema({
+  name:String,
+  number:String
+});
+
 var Reminder = mongoose.model('Reminder', ReminderSchema);
+var User = mongoose.model('User', UserSchema);
 
 var conn = mongoose.connection;
 
@@ -96,6 +102,9 @@ function findBuddy(message) {
 
 // Handle a POST request from Twilio
 exports.receiveMessageWebhook = function(request, response) {
+
+  var user = User.findOne({number: request.body.From}, function(err,obj) { console.log(obj); });
+  console.log("User is " + user);
   var message = request.body.Body;
   var parsedTime = chrono.parseDate(message);
   var parsedTimeLocal = moment(parsedTime).format(' dddd MMM DD, h:mm a ');
