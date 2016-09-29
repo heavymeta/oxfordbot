@@ -64,6 +64,28 @@ exports.testParsing = function(request, response) {
 
 }
 
+function findBuddy(message) {
+  var words = message.split(" ");
+  var lastWord = null;
+  var foundBuddy = null;
+
+  words.forEach(function(word){
+    for (var property in friends) {
+      if (friends.hasOwnProperty(property)) {
+        if (property == word) {
+          if (lastWord == "Ask") {
+            console.log("found a friend " + friends[property] + " " + lastWord + " " + property);
+            var buddy = {name: property, number: friends[property]}
+            foundBuddy = buddy;
+          }
+        }
+      }
+    }
+    lastWord = word;
+  });
+  return foundBuddy;
+}
+
 // Handle a POST request from Twilio
 exports.receiveMessageWebhook = function(request, response) {
 
@@ -85,12 +107,6 @@ exports.receiveMessageWebhook = function(request, response) {
       console.log("New user created!");
     }
   })
-
-
-
-
-
-
 
   // Look for buddy reminders to set
   var buddy = findBuddy(message);
