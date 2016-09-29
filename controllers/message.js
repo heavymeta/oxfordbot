@@ -104,20 +104,21 @@ function findBuddy(message) {
 exports.receiveMessageWebhook = function(request, response) {
 
   console.log("Number " + request.body.From);
-  var userNumber = null;
-  User.findOne({number: request.body.From}, function(err,obj) { userNumber = obj.number });
+  User.findOne({number: request.body.From}, function(err,obj) {
 
-  if (!userNumber) {
-    console.log("Creating a new user")
-    var newUser = new User()
-    newUser.number = request.body.From;
-    newUser.save(
-      function(err){
-        //console.error("Error while saving");
-      }
-    );
+    if (!obj.number) {
+      console.log("Creating a new user")
+      var newUser = new User()
+      newUser.number = request.body.From;
+      newUser.save(
+        function(err){
+          //console.error("Error while saving");
+        }
+      );
+    }
+  });
 
-  }
+
 
 
   var message = request.body.Body;
@@ -244,5 +245,5 @@ exports.fireReminders = function(request, response) {
 };
 
 function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
