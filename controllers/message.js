@@ -137,6 +137,35 @@ exports.receiveMessageWebhook = function(request, response) {
     }
   });
 
+  if (buddy) {
+    client.messages.create({
+      body: 'I\'ll also text your friend, ' + buddy.name + ', and ask them to remind you 30 minutes ahead of time.',
+      to: config.myNumber,
+      from: config.twilioNumber
+      //mediaUrl: 'https://demo.twilio.com/owl.png'
+    }, function(err, message) {
+      if(err) {
+        console.error(err.message);
+      } else {
+        console.log("Message sent");
+      }
+    });
+
+    client.messages.create({
+      body: 'Hey ' + buddy.name + '! Your friend Ian asked for you to call and remind them to do something at ' + parsedTimeLocal,
+      to: buddy.number,
+      from: config.twilioNumber
+      //mediaUrl: 'https://demo.twilio.com/owl.png'
+    }, function(err, message) {
+      if(err) {
+        console.error(err.message);
+      } else {
+        console.log("Message sent");
+      }
+    });
+
+  }
+
 };
 
 // Find all the reminders that have not been sent
