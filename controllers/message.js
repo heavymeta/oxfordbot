@@ -106,12 +106,12 @@ exports.receiveMessageWebhook = function(request, response) {
 var query = User.findOne({ 'number': request.body.From });
 
 // selecting the `name` and `occupation` fields
-query.select('number');
+query.select('number name');
 
 // execute the query at a later time
 query.exec(function (err, person) {
   if (err) return handleError(err);
-  console.log("name name " + person.name);
+  console.log("name " + person.name);
 })
 
 
