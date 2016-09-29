@@ -103,7 +103,9 @@ function findBuddy(message) {
 // Handle a POST request from Twilio
 exports.receiveMessageWebhook = function(request, response) {
 
-  var user = User.findOne({number: request.body.From}, function(err,obj) { console.log(obj); });
+  console.log("Number " + request.body.From);
+  var user = User.findOne({number: request.body.From}, function(err,obj) { console.log("Object " + obj + "Object number: " + obj.number); });
+  console.log("User " + user.number);
   if (!user.number) {
     console.log("Creating a new user")
     var newUser = new User()
