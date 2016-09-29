@@ -91,7 +91,6 @@ function findBuddy(message) {
     }
     lastWord = word;
   });
-  console.log("this is foundBuddy " + foundBuddy.name);
   return foundBuddy;
 }
 
@@ -104,7 +103,7 @@ exports.receiveMessageWebhook = function(request, response) {
 
   // Look for buddy reminders to set
   var buddy = findBuddy(message);
-  console.log ("This is your buddy " + buddy);
+
 
   // Save the remimder to the database
 
@@ -113,6 +112,10 @@ exports.receiveMessageWebhook = function(request, response) {
   myReminder.item = request.body.Body;
   myReminder.when = moment(chrono.parseDate(request.body.Body)).format();
   myReminder.fired = false;
+  if (buddy) {
+    myReminder.buddy = buddy.name;
+    myReminder.buddyNumber = buddy.number;
+  }
   myReminder.save(
     function(err){
       //console.error("Error while saving");
