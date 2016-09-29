@@ -29,15 +29,6 @@ UserSchema = new Schema({
 var Reminder = mongoose.model('Reminder', ReminderSchema);
 var User = mongoose.model('User', UserSchema);
 
-var newUser = new User()
-newUser.name = 'John';
-newUser.number = '+15551212';
-newUser.save(
-  function(err){
-    console.error("Error while saving");
-  }
-);
-
 var conn = mongoose.connection;
 
 // Render a form that will allow the user to send a text (or picture) message
@@ -113,9 +104,9 @@ function findBuddy(message) {
 exports.receiveMessageWebhook = function(request, response) {
 
   console.log("Number " + request.body.From);
-  User.findOne({'number': request.body.From}, function(err,obj) {
+  var foundReminders = User.find({ number: request.body.From });
 
-    if (!obj.number) {
+    if (!foundReminders.number) {
       console.log("Creating a new user")
       var newUser = new User()
       newUser.number = request.body.From;
@@ -125,7 +116,7 @@ exports.receiveMessageWebhook = function(request, response) {
         }
       );
     }
-  });
+
 
 
 
