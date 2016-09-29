@@ -29,6 +29,15 @@ UserSchema = new Schema({
 var Reminder = mongoose.model('Reminder', ReminderSchema);
 var User = mongoose.model('User', UserSchema);
 
+var newUser = new User()
+newUser.name = 'John';
+newUser.number = '+15551212';
+newUser.save(
+  function(err){
+    console.error("Error while saving");
+  }
+);
+
 var conn = mongoose.connection;
 
 // Render a form that will allow the user to send a text (or picture) message
@@ -137,6 +146,7 @@ exports.receiveMessageWebhook = function(request, response) {
   myReminder.item = request.body.Body;
   myReminder.when = moment(chrono.parseDate(request.body.Body)).format();
   myReminder.fired = false;
+
   if (buddy) {
     myReminder.buddy = buddy.name;
     myReminder.buddyNumber = buddy.number;
