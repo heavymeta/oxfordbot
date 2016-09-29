@@ -59,70 +59,38 @@ exports.sendMessage = function(request, response) {
 // web application, which we have stored in the database
 exports.testParsing = function(request, response) {
 
-  var message = "Ask Rachel to remind me to take the trash out tomorrow morning at 7am";
-  var words = message.split(" ");
 
-  var lastWord;
 
-  words.forEach(function(word){
-    for (var property in friends) {
-      if (friends.hasOwnProperty(property)) {
-        if (property == word) {
-          if (lastWord == "Ask") {
-            console.log("found a friend " + friends[property] + " " + property);
-          }
-        }
-      }
-    }
-    lastWord = word;
-  });
-};
 
-function findBuddy(message) {
-  var words = message.split(" ");
-  var lastWord = null;
-  var foundBuddy = null;
-
-  words.forEach(function(word){
-    for (var property in friends) {
-      if (friends.hasOwnProperty(property)) {
-        if (property == word) {
-          if (lastWord == "Ask") {
-            console.log("found a friend " + friends[property] + " " + lastWord + " " + property);
-            var buddy = {name: property, number: friends[property]}
-            foundBuddy = buddy;
-          }
-        }
-      }
-    }
-    lastWord = word;
-  });
-  return foundBuddy;
 }
 
 // Handle a POST request from Twilio
 exports.receiveMessageWebhook = function(request, response) {
 
-var query = User.findOne({ 'number': request.body.From });
-
-// selecting the `name` and `occupation` fields
-query.select('number name');
-
-// execute the query at a later time
-query.exec(function (err, person) {
-  if (err) return handleError(err);
-  console.log("name " + person.name);
-})
-
-
-
-
-
-
   var message = request.body.Body;
   var parsedTime = chrono.parseDate(message);
   var parsedTimeLocal = moment(parsedTime).format(' dddd MMM DD, h:mm a ');
   var parsedMessage = message.split(" ");
+
+  User.findOne({ 'number': request.body.Body }, 'name number', function (err, person) {
+    if (err) return handleError(err);
+    if (!person.number) {
+      var newUser = new User()
+      newUser.from = request.body.From;
+      myReminder.save(
+        function(err){
+          //console.error("Error while saving");
+        }
+      );
+      console.log("New user created!");
+    }
+  })
+
+
+
+
+
+
 
   // Look for buddy reminders to set
   var buddy = findBuddy(message);
