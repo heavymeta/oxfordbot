@@ -107,7 +107,7 @@ exports.receiveMessageWebhook = function(request, response) {
   if (!user.number) {
 
     var newUser = new User()
-    newUser.from = request.body.From;
+    newUser.number = request.body.From;
     newUser.save(
       function(err){
         //console.error("Error while saving");
