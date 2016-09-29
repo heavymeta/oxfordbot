@@ -124,8 +124,11 @@ exports.receiveMessageWebhook = function(request, response) {
 
   response.send("I got it");
 
+  var expressions = [ "Cool!", "Got it!", "I'm on it.", "Ok then!" ];
+  var sel = getRandomInt(0, expressions.length);
+
   client.messages.create({
-    body: 'Got it. I\'m going to remind you on ' + parsedTimeLocal,
+    body: expressions[sel] + ' I\'m going to remind you on ' + parsedTimeLocal,
     to: config.myNumber,
     from: config.twilioNumber
     //mediaUrl: 'https://demo.twilio.com/owl.png'
@@ -215,3 +218,7 @@ exports.fireReminders = function(request, response) {
   });
   //response.sendMessage(200);
 };
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
