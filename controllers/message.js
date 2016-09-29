@@ -112,7 +112,7 @@ exports.receiveMessageWebhook = function(request, response) {
     if (!person) {
       var newUser = new User()
       newUser.from = request.body.From;
-      myReminder.save(
+      newUser.save(
         function(err){
           //console.error("Error while saving");
         }
@@ -120,7 +120,7 @@ exports.receiveMessageWebhook = function(request, response) {
       console.log("New user created!");
       client.messages.create({
         body: 'Hi I\'m Oxfordbot! Just text in what you want to do and when, and I\'ll remind you to do it 30 mins before.',
-        to: config.myNumber,
+        to: request.body.From,
         from: config.twilioNumber
         //mediaUrl: 'https://demo.twilio.com/owl.png'
       }, function(err, message) {
@@ -162,7 +162,7 @@ exports.receiveMessageWebhook = function(request, response) {
 
       client.messages.create({
         body: expressions[sel] + ' I\'m going to remind you on ' + parsedTimeLocal,
-        to: config.myNumber,
+        to: request.body.From,
         from: config.twilioNumber
         //mediaUrl: 'https://demo.twilio.com/owl.png'
       }, function(err, message) {
@@ -176,7 +176,7 @@ exports.receiveMessageWebhook = function(request, response) {
       if (buddy) {
         client.messages.create({
           body: 'I\'ll also text your friend, ' + buddy.name + ', and ask them to remind you 30 minutes ahead of time.',
-          to: config.myNumber,
+          to: request.body.From,
           from: config.twilioNumber
           //mediaUrl: 'https://demo.twilio.com/owl.png'
         }, function(err, message) {
@@ -204,7 +204,7 @@ exports.receiveMessageWebhook = function(request, response) {
     } else {
       client.messages.create({
         body: 'Whoops. Could you be a little more specific? I didn\'t get that.',
-        to: config.myNumber,
+        to: request.body.From,
         from: config.twilioNumber
         //mediaUrl: 'https://demo.twilio.com/owl.png'
       }, function(err, message) {
