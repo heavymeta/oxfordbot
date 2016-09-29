@@ -63,7 +63,7 @@ exports.testParsing = function(request, response) {
       if (friends.hasOwnProperty(property)) {
         if (property == word) {
           if (lastWord == "Ask") {
-            console.log("found a friend " + friends[property] + " " + lastWord);
+            console.log("found a friend " + friends[property] + " " + property);
           }
         }
       }
@@ -82,14 +82,16 @@ function findBuddy(message) {
       if (friends.hasOwnProperty(property)) {
         if (property == word) {
           if (lastWord == "Ask") {
-            console.log("found a friend " + friends[property] + " " + lastWord);
-            foundBuddy = friends;
+            console.log("found a friend " + friends[property] + " " + lastWord + " " + property);
+            var buddy = {property: friends[property]}
+            foundBuddy = buddy;
           }
         }
       }
     }
     lastWord = word;
   });
+  return foundBuddy;
 }
 
 // Handle a POST request from Twilio
