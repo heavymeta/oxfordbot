@@ -109,8 +109,7 @@ exports.receiveMessageWebhook = function(request, response) {
 
   User.findOne({ 'number': '+1728383838' }, 'name number', function (err, person) {
     if (err) return handleError(err);
-    console.log( person);
-    if (person.number) {
+    if (!person) {
       var newUser = new User()
       newUser.from = request.body.From;
       myReminder.save(
