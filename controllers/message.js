@@ -104,7 +104,7 @@ function findBuddy(message) {
 exports.receiveMessageWebhook = function(request, response) {
 
   console.log("Number " + request.body.From);
-  User.findOne({number: request.body.From}, function(err,obj) {
+  User.findOne({'number': request.body.From}, function(err,obj) {
 
     if (!obj.number) {
       console.log("Creating a new user")
