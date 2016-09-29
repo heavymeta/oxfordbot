@@ -103,19 +103,17 @@ function findBuddy(message) {
 // Handle a POST request from Twilio
 exports.receiveMessageWebhook = function(request, response) {
 
+var query = User.findOne({ 'number': request.body.From });
 
-  var foundReminders = User.find({ number: request.body.From });
-  console.log("Number " + foundReminders.number);
-    if (!foundReminders.number) {
-      console.log("Creating a new user")
-      var newUser = new User()
-      newUser.number = request.body.From;
-      newUser.save(
-        function(err){
-          //console.error("Error while saving");
-        }
-      );
-    }
+// selecting the `name` and `occupation` fields
+query.select('number');
+
+// execute the query at a later time
+query.exec(function (err, person) {
+  if (err) return handleError(err);
+  console.log("name name " + person.name);
+})
+
 
 
 
