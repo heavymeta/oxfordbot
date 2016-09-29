@@ -59,7 +59,20 @@ exports.sendMessage = function(request, response) {
 // web application, which we have stored in the database
 exports.testParsing = function(request, response) {
 
-
+  User.findOne({ 'number': request.body.Body }, 'name number', function (err, person) {
+    if (err) return handleError(err);
+    console.log( person);
+    if (person.number) {
+      var newUser = new User()
+      newUser.from = request.body.From;
+      myReminder.save(
+        function(err){
+          //console.error("Error while saving");
+        }
+      );
+      console.log("New user created!");
+    }
+  })
 
 
 }
@@ -94,7 +107,7 @@ exports.receiveMessageWebhook = function(request, response) {
   var parsedTimeLocal = moment(parsedTime).format(' dddd MMM DD, h:mm a ');
   var parsedMessage = message.split(" ");
 
-  User.findOne({ 'number': request.body.Body }, 'name number', function (err, person) {
+  User.findOne({ 'number': request.body.From }, 'name number', function (err, person) {
     if (err) return handleError(err);
     console.log( person);
     if (person.number) {
