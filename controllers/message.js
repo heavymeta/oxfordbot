@@ -83,7 +83,7 @@ function findBuddy(message) {
         if (property == word) {
           if (lastWord == "Ask") {
             console.log("found a friend " + friends[property] + " " + lastWord + " " + property);
-            var buddy = {property: friends[property]}
+            var buddy = {name: property, number: friends[property]}
             foundBuddy = buddy;
           }
         }
@@ -91,7 +91,7 @@ function findBuddy(message) {
     }
     lastWord = word;
   });
-  console.log("this is foundBuddy " + foundBuddy);
+  console.log("this is foundBuddy " + foundBuddy.name);
   return foundBuddy;
 }
 
