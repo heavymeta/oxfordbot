@@ -107,7 +107,7 @@ exports.receiveMessageWebhook = function(request, response) {
   var parsedTimeLocal = moment(parsedTime).format(' dddd MMM DD, h:mm a ');
   var parsedMessage = message.split(" ");
 
-  User.findOne({ 'number': '+1728383838' }, 'name number', function (err, person) {
+  User.findOne({ 'number': request.body.From }, 'name number', function (err, person) {
     if (err) return handleError(err);
     if (!person) {
       var newUser = new User()
