@@ -105,7 +105,7 @@ exports.receiveMessageWebhook = function(request, response) {
 
   var user = User.findOne({number: request.body.From}, function(err,obj) { console.log(obj); });
   if (!user.number) {
-
+    console.log("Creating a new user")
     var newUser = new User()
     newUser.number = request.body.From;
     newUser.save(
