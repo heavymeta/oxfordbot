@@ -104,7 +104,9 @@ function findBuddy(message) {
 exports.receiveMessageWebhook = function(request, response) {
 
   var user = User.findOne({number: request.body.From}, function(err,obj) { console.log(obj); });
-  console.log("User is " + user);
+  console.log("User is " + user.name);
+
+  
   var message = request.body.Body;
   var parsedTime = chrono.parseDate(message);
   var parsedTimeLocal = moment(parsedTime).format(' dddd MMM DD, h:mm a ');
