@@ -135,7 +135,7 @@ exports.receiveMessageWebhook = function(request, response) {
 
       if (message == "thanks" || message == "thank you") {
         client.messages.create({
-          body: 'That's what I\'m here for :)',
+          body: 'That\'s what I\'m here for :)',
           to: request.body.From,
           from: config.twilioNumber
           //mediaUrl: 'https://demo.twilio.com/owl.png'
