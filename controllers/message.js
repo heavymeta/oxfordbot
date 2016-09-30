@@ -152,7 +152,7 @@ exports.receiveMessageWebhook = function(request, response) {
       var buddy = findBuddy(message);
 
 
-      // Save the remimder to the database
+      // Save the remimder 
 
       var myReminder = new Reminder()
       myReminder.from = request.body.From;
