@@ -107,6 +107,7 @@ exports.receiveMessageWebhook = function(request, response) {
   var parsedTimeLocal = moment(parsedTime).format(' dddd MMM DD, h:mm a ');
   var parsedMessage = message.split(" ");
 
+
   User.findOne({ 'number': request.body.From }, 'name number', function (err, person) {
     if (err) return handleError(err);
     if (!person) {
@@ -132,6 +133,20 @@ exports.receiveMessageWebhook = function(request, response) {
       });
     } else {
 
+      if (message == "thanks" || message == "thank you") {
+        client.messages.create({
+          body: 'That's what I\'m here for :)',
+          to: request.body.From,
+          from: config.twilioNumber
+          //mediaUrl: 'https://demo.twilio.com/owl.png'
+        }, function(err, message) {
+          if(err) {
+            console.error(err.message);
+          } else {
+            console.log("Message sent");
+          }
+        });
+      } else {
       if (parsedTimeLocal != "Invalid date") {
       // Look for buddy reminders to set
       var buddy = findBuddy(message);
@@ -215,6 +230,7 @@ exports.receiveMessageWebhook = function(request, response) {
         }
       });
     }
+  }
     }
 
   })
