@@ -37,7 +37,9 @@
     "moment-timezone": "^0.5.5",
     "mongoose": "latest",
     "morgan": "^1.5.1",
-    "twilio": "^1.11.1"
+    "twilio": "^1.11.1",
+    "node-tesseract": "^0.2.7",
+    "opencv": "^5.0.0"
   },
   "devDependencies": {
     "chai": "^2.1.0",
