@@ -79,7 +79,7 @@ request({
     body: formData,
     method: 'POST'
   }, function (err, res, body) {
-    console.log(err);
+    console.log(body);
   });
 
 
