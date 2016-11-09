@@ -72,7 +72,7 @@ exports.testParsing = function(r, response) {
       method: 'POST'
     }, function (err, res, body) {
       console.log(err);
-      console.log(body);
+      console.log(res);
 
     });
 
