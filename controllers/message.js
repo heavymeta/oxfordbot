@@ -134,7 +134,7 @@ exports.receiveMessageWebhook = function(request, response) {
       });
     } else {
 
-      if (message.toLowerCase() == "thanks" || message.toLowerCase() == "thank you") {
+      if (message == "thanks" || message == "thank you") {
         client.messages.create({
           body: 'That\'s what I\'m here for :)',
           to: request.body.From,
@@ -153,7 +153,7 @@ exports.receiveMessageWebhook = function(request, response) {
       var buddy = findBuddy(message);
 
 
-      // Save the remimder
+      // Save the remimder 
 
       var myReminder = new Reminder()
       myReminder.from = request.body.From;
