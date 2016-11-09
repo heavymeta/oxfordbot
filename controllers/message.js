@@ -66,7 +66,7 @@ exports.testParsing = function(r, response) {
   };
 
 
-  var formData = querystring(form);
+  var formData = querystring.stringify(form);
   var contentLength = formData.length;
 
   console.log(form);
