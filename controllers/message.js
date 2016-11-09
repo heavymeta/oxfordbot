@@ -66,11 +66,12 @@ exports.testParsing = function(r, response) {
   };
 
 
-  var formData = querystring.stringify(form);
+  var formData = querystring(form);
   var contentLength = formData.length;
 
+  console.log(form);
   console.log(formData);
-  
+
   request({
       headers: {
         'Content-Length': contentLength,
