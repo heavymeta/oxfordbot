@@ -58,7 +58,7 @@ exports.sendMessage = function(request, response) {
 
 // Show a page displaying text/picture messages that have been sent to this
 // web application, which we have stored in the database
-exports.testParsing = function(request, response) {
+exports.testParsing = function(r, response) {
 
   request({
       url: 'https://api.projectoxford.ai/vision/v1.0/ocr?', //URL to hit
