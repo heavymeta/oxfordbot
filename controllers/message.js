@@ -3,6 +3,7 @@ var config = require('../config');
 var chrono = require('chrono-node');
 var mongoose = require('mongoose');
 var moment = require('moment');
+var request = require('request');
 
 var friends = { "Dan": "+17187558562", "Rachel": "+17187558562", "Sam": "+17187558562" };
 
@@ -59,20 +60,26 @@ exports.sendMessage = function(request, response) {
 // web application, which we have stored in the database
 exports.testParsing = function(request, response) {
 
-  User.findOne({ 'number': request.body.Body }, 'name number', function (err, person) {
-    if (err) return handleError(err);
-    console.log( person);
-    if (person.number) {
-      var newUser = new User()
-      newUser.from = request.body.From;
-      myReminder.save(
-        function(err){
-          //console.error("Error while saving");
-        }
-      );
-      console.log("New user created!");
-    }
-  })
+  request({
+      url: 'https://api.projectoxford.ai/vision/v1.0/ocr?', //URL to hit
+      qs: {language: 'unk', detectOrientation: 'true'}, //Query string data
+      method: 'POST',
+      headers: {
+      'Content-Type': 'application/json',
+      'Ocp-Apim-Subscription-Key': '708e44803f7d4b86b5c988d9c7816f3a'
+  },
+      //Lets post the following key/values as form
+      form: {
+          url: 'https://api.twilio.com/2010-04-01/Accounts/AC9da8e02953dc14e2cf46f01c513f5592/Messages/MM79d849214fc1d4f0a59ba93f13fd6e21/Media/ME6054833a65fa309940aa464fb47ecac3'
+      }
+  }, function(error, response, body){
+      if(error) {
+          console.log(error);
+      } else {
+          console.log(response.statusCode, body);
+      }
+  });
+
 
 
 }
