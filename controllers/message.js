@@ -82,6 +82,11 @@ exports.testParsing = function(r, response) {
     }, function (err, res, body) {
       console.log(err);
       console.log(body);
+      for (var prop in body) {
+        if (obj.hasOwnProperty(prop)) {
+          console.log(prop);
+    }
+}
 
     });
 
