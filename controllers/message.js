@@ -71,17 +71,14 @@ var contentLength = formData.length;
 
 request({
     headers: {
-      'Content-Length': contentLength,
       'Content-Type': 'application/json',
       'Ocp-Apim-Subscription-Key': '708e44803f7d4b86b5c988d9c7816f3a'
     },
     url: 'https://api.projectoxford.ai/vision/v1.0/ocr?',
     qs: {language: 'unk', detectOrientation: 'true'},
-    body: form,
+    body: formData,
     method: 'POST'
   }, function (err, res, body) {
-    console.log(res);
-    console.log(body);
     console.log(err);
   });
 
