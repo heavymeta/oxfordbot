@@ -103,6 +103,7 @@ function findBuddy(message) {
 exports.receiveMessageWebhook = function(request, response) {
 
   var message = request.body.Body;
+  console.log(request);
   var parsedTime = chrono.parseDate(message);
   var parsedTimeLocal = moment(parsedTime).format(' dddd MMM DD, h:mm a ');
   var parsedMessage = message.split(" ");
