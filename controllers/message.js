@@ -61,13 +61,6 @@ exports.sendMessage = function(request, response) {
 // web application, which we have stored in the database
 exports.testParsing = function(r, response) {
 
-
-  var formData = querystring.stringify(form);
-  var contentLength = formData.length;
-
-  console.log(form);
-  console.log(formData);
-
   request({
       headers: {
         'Ocp-Apim-Subscription-Key': '708e44803f7d4b86b5c988d9c7816f3a'
