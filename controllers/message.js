@@ -65,7 +65,7 @@ exports.testParsing = function(r, response) {
       qs: {language: 'unk', detectOrientation: 'true'}, //Query string data
       method: 'POST',
       headers: {
-      'Content-Type': application/json,
+      'Content-Type': 'application/json',
       'Ocp-Apim-Subscription-Key': '708e44803f7d4b86b5c988d9c7816f3a'
       },
       //Lets post the following key/values as form
