@@ -61,10 +61,6 @@ exports.sendMessage = function(request, response) {
 // web application, which we have stored in the database
 exports.testParsing = function(r, response) {
 
-  var form = {
-      'url': "https://api.twilio.com/2010-04-01/Accounts/AC9da8e02953dc14e2cf46f01c513f5592/Messages/MM79d849214fc1d4f0a59ba93f13fd6e21/Media/ME6054833a65fa309940aa464fb47ecac3"
-  };
-
 
   var formData = querystring.stringify(form);
   var contentLength = formData.length;
@@ -77,7 +73,9 @@ exports.testParsing = function(r, response) {
         'Ocp-Apim-Subscription-Key': '708e44803f7d4b86b5c988d9c7816f3a'
       },
       uri: 'https://api.projectoxford.ai/vision/v1.0/ocr?language=unk&detectOrientation=true',
-      body: form,
+      form: {
+        url: 'https://api.twilio.com/2010-04-01/Accounts/AC9da8e02953dc14e2cf46f01c513f5592/Messages/MM79d849214fc1d4f0a59ba93f13fd6e21/Media/ME6054833a65fa309940aa464fb47ecac3'
+    },
       method: 'POST'
     }, function (err, res, body) {
       console.log(err);
