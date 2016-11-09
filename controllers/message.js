@@ -66,7 +66,7 @@ var form = {
     'url': 'https://api.twilio.com/2010-04-01/Accounts/AC9da8e02953dc14e2cf46f01c513f5592/Messages/MM79d849214fc1d4f0a59ba93f13fd6e21/Media/ME6054833a65fa309940aa464fb47ecac3'
 };
 
-var formData = querystring.stringify(form);
+var formData = querystring.parse(form);
 var contentLength = formData.length;
 
 request({
@@ -76,7 +76,7 @@ request({
     },
     url: 'https://api.projectoxford.ai/vision/v1.0/ocr?',
     qs: {language: 'unk', detectOrientation: 'true'},
-    body: form,
+    body: formData,
     method: 'POST'
   }, function (err, res, body) {
     console.log(body);
