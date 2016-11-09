@@ -76,7 +76,7 @@ request({
     },
     url: 'https://api.projectoxford.ai/vision/v1.0/ocr?',
     qs: {language: 'unk', detectOrientation: 'true'},
-    body: formData,
+    body: form,
     method: 'POST'
   }, function (err, res, body) {
     console.log(body);
