@@ -106,7 +106,7 @@ function sendPhotoMessage(msg) {
 var message;
 
 if (msg) {
-  message = "I found an event on " + msg + ". I'll add that to your agenda."
+  message = "That looks fun. I'll add it to your agenda and text you back this photo on " + msg + ".";
 } else {
   message = "I couldn't find a date on that photo. Give it another try with the date clear and straight."
 }
@@ -191,7 +191,7 @@ exports.receiveMessageWebhook = function(request, response) {
   } else {
     sendDateResponse(parsedTimeLocal);
   }
-  response.send("Got it.");
+  response.sendStatus(200);
 };
 
 function sendDateResponse(time) {
