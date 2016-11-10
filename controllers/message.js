@@ -89,13 +89,18 @@ function process(key,value) {
 // Handle a POST request from Twilio
 exports.receiveMessageWebhook = function(request, response) {
   var message = request.body.Body;
+  var image = request.body.MediaUrl0;
   console.log(request);
   var parsedTime = chrono.parseDate(message);
   var parsedTimeLocal = moment(parsedTime).format(' dddd MMM DD, h:mm a ');
   var parsedMessage = message.split(" ");
 
+  if (image) {
+    console.log("got an image");
+  }
 
-  
+
+
 };
 
 // Find all the reminders that have not been sent
