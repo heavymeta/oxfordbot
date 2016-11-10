@@ -62,7 +62,7 @@ exports.sendMessage = function(request, response) {
 
 function photoParse(img) {
   console.log("Image: " + img);
-  var message = "I don't see an event there."
+  var message = null;
   request({
       headers: {
         'Ocp-Apim-Subscription-Key': '708e44803f7d4b86b5c988d9c7816f3a'
@@ -77,7 +77,7 @@ function photoParse(img) {
       console.log(words);
       var parsedFromPhoto = chrono.parseDate(words);
       if (parsedFromPhoto) {
-        return parsedFromPhoto;
+        message = parsedFromPhoto;
       }
     });
     return message;
