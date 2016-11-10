@@ -62,7 +62,7 @@ exports.sendMessage = function(request, response) {
 
 function photoParse(img) {
   console.log("Image: " + img);
-
+  var message = "I don't see an event there."
   request({
       headers: {
         'Ocp-Apim-Subscription-Key': '708e44803f7d4b86b5c988d9c7816f3a'
@@ -76,8 +76,11 @@ function photoParse(img) {
       traverse(json,process);
       console.log(words);
       var parsedFromPhoto = chrono.parseDate(words);
-      console.log(parsedFromPhoto);
+      if (parsedFromPhoto) {
+        return parsedFromPhoto;
+      }
     });
+    return message;
 }
 
 function traverse(o,func) {
@@ -108,7 +111,8 @@ exports.receiveMessageWebhook = function(request, response) {
 
   if (image) {
     console.log("got an image");
-    photoParse(image);
+    var parsedImage = photoParse(image);
+    console.log("parsed image " + parsedImage);
   }
 
 response.sendStatus(200);
