@@ -60,7 +60,7 @@ exports.sendMessage = function(request, response) {
 
 // Show a page displaying text/picture messages that have been sent to this
 // web application, which we have stored in the database
-function photoParse(response) {
+function photoParse(r, response) {
 
   request({
       headers: {
@@ -153,24 +153,6 @@ exports.receiveMessageWebhook = function(request, response) {
         }
       });
     } else {
-
-      if (message == "thanks" || message == "thank you") {
-        client.messages.create({
-          body: 'That\'s what I\'m here for :)',
-          to: request.body.From,
-          from: config.twilioNumber
-          //mediaUrl: 'https://demo.twilio.com/owl.png'
-        }, function(err, message) {
-          if(err) {
-            console.error(err.message);
-          } else {
-            console.log("Message sent");
-          }
-        });
-      } else {
-        if (image != null) {
-          photoParse(request);
-        } else {
       if (parsedTimeLocal != "Invalid date") {
       // Look for buddy reminders to set
       var buddy = findBuddy(message);
@@ -184,10 +166,6 @@ exports.receiveMessageWebhook = function(request, response) {
       myReminder.when = moment(chrono.parseDate(request.body.Body)).format();
       myReminder.fired = false;
 
-      if (buddy) {
-        myReminder.buddy = buddy.name;
-        myReminder.buddyNumber = buddy.number;
-      }
       myReminder.save(
         function(err){
           //console.error("Error while saving");
@@ -212,35 +190,7 @@ exports.receiveMessageWebhook = function(request, response) {
         }
       });
 
-      if (buddy) {
-        client.messages.create({
-          body: 'I\'ll also text your friend, ' + buddy.name + ', and ask them to remind you 30 minutes ahead of time.',
-          to: request.body.From,
-          from: config.twilioNumber
-          //mediaUrl: 'https://demo.twilio.com/owl.png'
-        }, function(err, message) {
-          if(err) {
-            console.error(err.message);
-          } else {
-            console.log("Message sent");
-          }
-        });
 
-        client.messages.create({
-          body: 'Hey ' + buddy.name + '! Your friend Ian asked for you to call and remind them to do something at ' + parsedTimeLocal,
-          to: buddy.number,
-          from: config.twilioNumber
-          //mediaUrl: 'https://demo.twilio.com/owl.png'
-        }, function(err, message) {
-          if(err) {
-            console.error(err.message);
-          } else {
-            console.log("Message sent");
-          }
-        });
-
-      }
-    }
     } else {
       client.messages.create({
         body: 'Whoops. Could you be a little more specific? I didn\'t get that.',
@@ -256,7 +206,7 @@ exports.receiveMessageWebhook = function(request, response) {
       });
     }
   }
-    }
+
 
   })
 };
