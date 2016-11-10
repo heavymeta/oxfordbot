@@ -103,7 +103,7 @@ function photoParse(img) {
       var parsedFromPhoto = chrono.parseDate(words);
       var parsedTimeLocal = moment(parsedFromPhoto).format(' dddd MMM DD, h:mm a ');
       if (parsedFromPhoto) {
-        sendPhotoMessage(parsedFromPhoto);
+        sendPhotoMessage(parsedTimeLocal);
       } else {
         sendPhotoMessage(null);
       }
