@@ -6,7 +6,7 @@ var moment = require('moment');
 var request = require('request');
 var querystring = require('querystring');
 
-var friends = { "Dan": "+17187558562", "Rachel": "+17187558562", "Sam": "+17187558562" };
+var words;
 
 // Create an authenticated Twilio REST API client
 var client = twilio(config.accountSid, config.authToken);
