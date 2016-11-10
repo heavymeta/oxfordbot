@@ -106,7 +106,7 @@ function sendPhotoMessage(msg) {
 var message;
 
 if (msg) {
-  message = "That looks fun. I'll add it to your agenda and text you back this photo on " + msg + ".";
+  message = "I'll add this to your agenda on" + msg + ". I'll also text you back this photo the day before the event.";
 } else {
   message = "I couldn't find a date on that photo. Give it another try with the date clear and straight."
 }
