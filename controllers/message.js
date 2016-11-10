@@ -174,7 +174,7 @@ function process(key,value) {
 
 // Handle a POST request from Twilio
 exports.receiveMessageWebhook = function(request, response) {
-response.sendStatus(200);
+
 
   words = ""
   var message = request.body.Body;
@@ -191,7 +191,7 @@ response.sendStatus(200);
   } else {
     sendDateResponse(parsedTimeLocal);
   }
-
+response.send("ok");
 };
 
 function sendDateResponse(time) {
