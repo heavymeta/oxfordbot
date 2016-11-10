@@ -191,7 +191,7 @@ exports.receiveMessageWebhook = function(request, response) {
   } else {
     sendDateResponse(parsedTimeLocal);
   }
-  response.sendStatus(200);
+  response.send("Got it.");
 };
 
 function sendDateResponse(time) {
