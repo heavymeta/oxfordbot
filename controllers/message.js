@@ -57,6 +57,31 @@ exports.sendMessage = function(request, response) {
   });
 };
 
+function sendPhotoMessage(msg) {
+
+var message;
+
+if (msg) {
+  message = "I'll add an event on " + msg + " to your calendar."
+} else {
+  message = "I couldn't find a date on that photo. Give it another try with the date clear and straight."
+}
+  client.messages.create({
+    body: message,
+    to: config.myNumber,  // Text this number
+    from: config.twilioNumber // From a valid Twilio number
+    //mediaUrl: 'https://demo.twilio.com/owl.png'
+  }, function(err, message) {
+    if(err) {
+      console.error(err.message);
+    } else {
+      console.log("success");
+    }
+  });
+
+
+
+}
 // Show a page displaying text/picture messages that have been sent to this
 // web application, which we have stored in the database
 
@@ -77,10 +102,12 @@ function photoParse(img) {
       console.log(words);
       var parsedFromPhoto = chrono.parseDate(words);
       if (parsedFromPhoto) {
-        message = parsedFromPhoto;
+        sendPhotoMessage(parsedFromPhoto);
+      } else {
+        sendPhotoMessage(null);
       }
     });
-    return message;
+
 }
 
 function traverse(o,func) {
