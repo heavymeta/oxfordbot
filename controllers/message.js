@@ -33,6 +33,29 @@ var User = mongoose.model('User', UserSchema);
 
 var conn = mongoose.connection;
 
+var morningParser = new chrono.Parser();
+
+// Provide search pattern
+morningParser.pattern = function () { return /morning/i }
+
+// This function will be called when matched pattern is found
+morningParser.extract = function(text, ref, match, opt) {
+
+    // Return a parsed result, that is 25 December
+    return new chrono.ParsedResult({
+        ref: ref,
+        text: match[0],
+        index: match.index,
+        start: {
+            hour: 9,
+            minute: 30,
+        }
+    });
+}
+
+custom = new chrono.Chrono();
+custom.parsers.push(morningParser);
+
 // Render a form that will allow the user to send a text (or picture) message
 // to a phone number they entered.
 exports.showSendMessage = function(request, response) {
@@ -100,7 +123,7 @@ function photoParse(img) {
       var json = JSON.parse(body);
       traverse(json,process);
       console.log(words);
-      var parsedFromPhoto = chrono.parseDate(words);
+      var parsedFromPhoto = custom.parseDate(words);
       var parsedTimeLocal = moment(parsedFromPhoto).format(' dddd MMM D');
       if (parsedFromPhoto) {
         sendPhotoMessage(parsedTimeLocal);
@@ -135,7 +158,7 @@ exports.receiveMessageWebhook = function(request, response) {
   var message = request.body.Body;
   var image = request.body.MediaUrl0;
   console.log(request);
-  var parsedTime = chrono.parseDate(message);
+  var parsedTime = custom.parseDate(message);
   var parsedTimeLocal = moment(parsedTime).format(' dddd MMM DD, h:mm a ');
   var parsedMessage = message.split(" ");
 
