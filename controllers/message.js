@@ -99,7 +99,7 @@ exports.receiveMessageWebhook = function(request, response) {
     console.log("got an image");
   }
 
-
+response.sendMessage(200);
 
 };
 
