@@ -62,7 +62,7 @@ function sendPhotoMessage(msg) {
 var message;
 
 if (msg) {
-  message = "I'll add an event on " + msg + " to your calendar."
+  message = "I found an event at " + msg + ". I'll add that to your agenda."
 } else {
   message = "I couldn't find a date on that photo. Give it another try with the date clear and straight."
 }
@@ -101,6 +101,7 @@ function photoParse(img) {
       traverse(json,process);
       console.log(words);
       var parsedFromPhoto = chrono.parseDate(words);
+      var parsedTimeLocal = moment(parsedFromPhoto).format(' dddd MMM DD, h:mm a ');
       if (parsedFromPhoto) {
         sendPhotoMessage(parsedFromPhoto);
       } else {
