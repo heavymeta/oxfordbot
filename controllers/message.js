@@ -7,6 +7,7 @@ var request = require('request');
 var querystring = require('querystring');
 
 var words;
+var number;
 
 // Create an authenticated Twilio REST API client
 var client = twilio(config.accountSid, config.authToken);
@@ -89,7 +90,7 @@ exports.showSendMessage = function(request, response) {
 exports.sendMessage = function(request, response) {
   client.messages.create({
     body: 'Hello from Node',
-    to: request.body.From,  // Text this number
+    to: config.myNumber,  // Text this number
     from: config.twilioNumber, // From a valid Twilio number
     mediaUrl: 'https://demo.twilio.com/owl.png'
   }, function(err, message) {
@@ -112,7 +113,7 @@ if (msg) {
 }
   client.messages.create({
     body: message,
-    to: request.body.From,  // Text this number
+    to: number,  // Text this number
     from: config.twilioNumber // From a valid Twilio number
     //mediaUrl: 'https://demo.twilio.com/owl.png'
   }, function(err, message) {
@@ -176,6 +177,7 @@ function process(key,value) {
 exports.receiveMessageWebhook = function(request, response) {
 
   words = ""
+  number = request.body.From;
   var message = request.body.Body;
   var image = request.body.MediaUrl0;
   console.log(request);
@@ -204,7 +206,7 @@ var message;
 
     client.messages.create({
       body: message,
-      to: request.body.From,  // Text this number
+      to: number,  // Text this number
       from: config.twilioNumber // From a valid Twilio number
       //mediaUrl: 'https://demo.twilio.com/owl.png'
     }, function(err, message) {
