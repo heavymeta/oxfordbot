@@ -62,7 +62,7 @@ function sendPhotoMessage(msg) {
 var message;
 
 if (msg) {
-  message = "I found an event at " + msg + ". I'll add that to your agenda."
+  message = "I found an event on " + msg + ". I'll add that to your agenda."
 } else {
   message = "I couldn't find a date on that photo. Give it another try with the date clear and straight."
 }
@@ -101,7 +101,7 @@ function photoParse(img) {
       traverse(json,process);
       console.log(words);
       var parsedFromPhoto = chrono.parseDate(words);
-      var parsedTimeLocal = moment(parsedFromPhoto).format(' dddd MMM DD, h:mm a ');
+      var parsedTimeLocal = moment(parsedFromPhoto).format(' dddd MMM ');
       if (parsedFromPhoto) {
         sendPhotoMessage(parsedTimeLocal);
       } else {
@@ -142,11 +142,36 @@ exports.receiveMessageWebhook = function(request, response) {
     console.log("got an image");
     var parsedImage = photoParse(image);
     console.log("parsed image " + parsedImage);
+  } else {
+    sendDateResponse(parsedTimeLocal);
   }
 
 response.sendStatus(200);
 
 };
+
+function parsedTimeLocal(time) {
+var message;
+
+    if (time) {
+      message = "I'll add an event at " + time + " to your calendar.";
+    } else {
+      message = "Hmm. I didn't catch a date in that. Try again?";
+    }
+
+    client.messages.create({
+      body: message,
+      to: config.myNumber,  // Text this number
+      from: config.twilioNumber // From a valid Twilio number
+      //mediaUrl: 'https://demo.twilio.com/owl.png'
+    }, function(err, message) {
+      if(err) {
+        console.error(err.message);
+      } else {
+        console.log("success");
+      }
+    });
+}
 
 // Find all the reminders that have not been sent
 function findReminders() {
