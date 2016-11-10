@@ -89,7 +89,7 @@ exports.showSendMessage = function(request, response) {
 exports.sendMessage = function(request, response) {
   client.messages.create({
     body: 'Hello from Node',
-    to: config.myNumber,  // Text this number
+    to: request.body.From,  // Text this number
     from: config.twilioNumber, // From a valid Twilio number
     mediaUrl: 'https://demo.twilio.com/owl.png'
   }, function(err, message) {
@@ -112,7 +112,7 @@ if (msg) {
 }
   client.messages.create({
     body: message,
-    to: config.myNumber,  // Text this number
+    to: request.body.From,  // Text this number
     from: config.twilioNumber // From a valid Twilio number
     //mediaUrl: 'https://demo.twilio.com/owl.png'
   }, function(err, message) {
@@ -204,7 +204,7 @@ var message;
 
     client.messages.create({
       body: message,
-      to: config.myNumber,  // Text this number
+      to: request.body.From,  // Text this number
       from: config.twilioNumber // From a valid Twilio number
       //mediaUrl: 'https://demo.twilio.com/owl.png'
     }, function(err, message) {
