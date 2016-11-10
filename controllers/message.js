@@ -68,7 +68,7 @@ function photoParse(img) {
         'Ocp-Apim-Subscription-Key': '708e44803f7d4b86b5c988d9c7816f3a'
       },
       uri: 'https://api.projectoxford.ai/vision/v1.0/ocr?language=unk&detectOrientation=true',
-      body: "{'url':"+img+"}",
+      body: "{'url':'"+img+"'}",
       method: 'POST'
     }, function (err, res, body) {
 
