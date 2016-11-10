@@ -70,6 +70,7 @@ function photoParse(r, response) {
       body: "{'url':'http://media.twiliocdn.com.s3-external-1.amazonaws.com/AC9da8e02953dc14e2cf46f01c513f5592/2b6ef5c23d632aa99fa537414295edde'}",
       method: 'POST'
     }, function (err, res, body) {
+<<<<<<< Updated upstream
       var json = JSON.parse(body);
       traverse(json,process);
       console.log(words);
@@ -77,6 +78,14 @@ function photoParse(r, response) {
       console.log(parsedFromPhoto);
     });
 
+=======
+      console.log(err);
+      console.log(body);
+      for (var prop in body) {
+        if (body.hasOwnProperty(prop)) {
+          console.log(prop);
+    }
+>>>>>>> Stashed changes
 }
 
 function process(key,value) {
