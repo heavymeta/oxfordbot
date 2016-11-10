@@ -153,7 +153,7 @@ response.sendStatus(200);
 function sendDateResponse(time) {
 var message;
 
-    if (time) {
+    if (time != "Invalid date") {
       message = "I'll add an event at " + time + " to your calendar.";
     } else {
       message = "Hmm. I didn't catch a date in that. Try again?";
