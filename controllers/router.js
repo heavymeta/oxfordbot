@@ -11,8 +11,6 @@ module.exports = function(app) {
     app.get('/message/send', message.showSendMessage);
     app.post('/message/send', basic, message.sendMessage);
     app.post('/message', message.receiveMessageWebhook);
-
-    app.get('/test', message.testParsing);
     app.get('/remind', message.fireReminders);
 
 };
