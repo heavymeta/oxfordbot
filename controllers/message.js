@@ -101,7 +101,7 @@ function photoParse(img) {
       traverse(json,process);
       console.log(words);
       var parsedFromPhoto = chrono.parseDate(words);
-      var parsedTimeLocal = moment(parsedFromPhoto).format(' dddd MMM ');
+      var parsedTimeLocal = moment(parsedFromPhoto).format(' dddd MMM D');
       if (parsedFromPhoto) {
         sendPhotoMessage(parsedTimeLocal);
       } else {
@@ -147,15 +147,15 @@ exports.receiveMessageWebhook = function(request, response) {
     sendDateResponse(parsedTimeLocal);
   }
 
-response.sendStatus(200);
 
+response.sendStatus(200);
 };
 
 function sendDateResponse(time) {
 var message;
 
     if (time != "Invalid date") {
-      message = "I'll add an event at " + time + " to your calendar.";
+      message = "Got it. I'll add an reminder for that at " + time + " to your agenda.";
     } else {
       message = "Hmm. I didn't catch a date in that. Try again?";
     }
@@ -172,6 +172,7 @@ var message;
         console.log("success");
       }
     });
+    response.sendStatus(200);
 }
 
 // Find all the reminders that have not been sent
