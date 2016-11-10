@@ -150,7 +150,7 @@ response.sendStatus(200);
 
 };
 
-function parsedTimeLocal(time) {
+function sendDateResponse(time) {
 var message;
 
     if (time) {
