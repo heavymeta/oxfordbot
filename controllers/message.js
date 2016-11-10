@@ -7,6 +7,7 @@ var request = require('request');
 var querystring = require('querystring');
 
 var friends = { "Dan": "+17187558562", "Rachel": "+17187558562", "Sam": "+17187558562" };
+var words;
 
 // Create an authenticated Twilio REST API client
 var client = twilio(config.accountSid, config.authToken);
@@ -59,37 +60,40 @@ exports.sendMessage = function(request, response) {
 
 // Show a page displaying text/picture messages that have been sent to this
 // web application, which we have stored in the database
-exports.testParsing = function(r, response) {
-
-  var form = {
-      'url': "https://api.twilio.com/2010-04-01/Accounts/AC9da8e02953dc14e2cf46f01c513f5592/Messages/MM79d849214fc1d4f0a59ba93f13fd6e21/Media/ME6054833a65fa309940aa464fb47ecac3"
-  };
-
-
-  var formData = querystring.stringify(form);
-  var contentLength = formData.length;
-
-  console.log(form);
-  console.log(formData);
+function photoParse(response) {
 
   request({
       headers: {
         'Ocp-Apim-Subscription-Key': '708e44803f7d4b86b5c988d9c7816f3a'
       },
       uri: 'https://api.projectoxford.ai/vision/v1.0/ocr?language=unk&detectOrientation=true',
-      body: "{'url':'https://api.twilio.com/2010-04-01/Accounts/AC9da8e02953dc14e2cf46f01c513f5592/Messages/MM79d849214fc1d4f0a59ba93f13fd6e21/Media/ME6054833a65fa309940aa464fb47ecac3'}",
+      body: "{'url':'http://media.twiliocdn.com.s3-external-1.amazonaws.com/AC9da8e02953dc14e2cf46f01c513f5592/2b6ef5c23d632aa99fa537414295edde'}",
       method: 'POST'
     }, function (err, res, body) {
-      console.log(err);
-      console.log(body);
-      for (var prop in body) {
-        if (obj.hasOwnProperty(prop)) {
-          console.log(prop);
+      var json = JSON.parse(body);
+      traverse(json,process);
+      console.log(words);
+      var parsedFromPhoto = chrono.parseDate(words);
+      console.log(parsedFromPhoto);
+    });
+
+}
+
+function process(key,value) {
+    console.log(key + " : "+value);
+    if (key == "text") {
+      words += value + " ";
     }
 }
 
-    });
-
+function traverse(o,func) {
+    for (var i in o) {
+        func.apply(this,[i,o[i]]);
+        if (o[i] !== null && typeof(o[i])=="object") {
+            //going on step down in the object tree!!
+            traverse(o[i],func);
+        }
+    }
 }
 
 function findBuddy(message) {
@@ -118,6 +122,7 @@ function findBuddy(message) {
 exports.receiveMessageWebhook = function(request, response) {
 
   var message = request.body.Body;
+  var image = request.body.MediaUrl0;
   console.log(request);
   var parsedTime = chrono.parseDate(message);
   var parsedTimeLocal = moment(parsedTime).format(' dddd MMM DD, h:mm a ');
@@ -163,6 +168,9 @@ exports.receiveMessageWebhook = function(request, response) {
           }
         });
       } else {
+        if (image != null) {
+          photoParse(request);
+        } else {
       if (parsedTimeLocal != "Invalid date") {
       // Look for buddy reminders to set
       var buddy = findBuddy(message);
@@ -232,6 +240,7 @@ exports.receiveMessageWebhook = function(request, response) {
         });
 
       }
+    }
     } else {
       client.messages.create({
         body: 'Whoops. Could you be a little more specific? I didn\'t get that.',
