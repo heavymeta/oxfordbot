@@ -175,7 +175,6 @@ function process(key,value) {
 // Handle a POST request from Twilio
 exports.receiveMessageWebhook = function(request, response) {
 
-
   words = ""
   var message = request.body.Body;
   var image = request.body.MediaUrl0;
