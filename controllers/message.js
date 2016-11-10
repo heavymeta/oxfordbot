@@ -80,7 +80,6 @@ exports.testParsing = function(r, response) {
       body: "{'url':'https://api.twilio.com/2010-04-01/Accounts/AC9da8e02953dc14e2cf46f01c513f5592/Messages/MM79d849214fc1d4f0a59ba93f13fd6e21/Media/ME6054833a65fa309940aa464fb47ecac3'}",
       method: 'POST'
     }, function (err, res, body) {
-<<<<<<< HEAD
 
       var json = JSON.parse(body);
       traverse(json,process);
@@ -94,45 +93,11 @@ function process(key,value) {
     console.log(key + " : "+value);
     if (key == "text") {
       words += value + " ";
-=======
-      console.log(err);
-      console.log(body);
-      for (var prop in body) {
-        if (obj.hasOwnProperty(prop)) {
-          console.log(prop);
->>>>>>> parent of c7a4b9f... commits
     }
-}
-
-    });
-
-}
-
-function findBuddy(message) {
-  var words = message.split(" ");
-  var lastWord = null;
-  var foundBuddy = null;
-
-  words.forEach(function(word){
-    for (var property in friends) {
-      if (friends.hasOwnProperty(property)) {
-        if (property == word) {
-          if (lastWord == "Ask") {
-            console.log("found a friend " + friends[property] + " " + lastWord + " " + property);
-            var buddy = {name: property, number: friends[property]}
-            foundBuddy = buddy;
-          }
-        }
-      }
-    }
-    lastWord = word;
-  });
-  return foundBuddy;
 }
 
 // Handle a POST request from Twilio
 exports.receiveMessageWebhook = function(request, response) {
-
   var message = request.body.Body;
   console.log(request);
   var parsedTime = chrono.parseDate(message);
@@ -220,20 +185,6 @@ exports.receiveMessageWebhook = function(request, response) {
         }
       });
 
-      if (buddy) {
-        client.messages.create({
-          body: 'I\'ll also text your friend, ' + buddy.name + ', and ask them to remind you 30 minutes ahead of time.',
-          to: request.body.From,
-          from: config.twilioNumber
-          //mediaUrl: 'https://demo.twilio.com/owl.png'
-        }, function(err, message) {
-          if(err) {
-            console.error(err.message);
-          } else {
-            console.log("Message sent");
-          }
-        });
-
         client.messages.create({
           body: 'Hey ' + buddy.name + '! Your friend Ian asked for you to call and remind them to do something at ' + parsedTimeLocal,
           to: buddy.number,
@@ -248,12 +199,9 @@ exports.receiveMessageWebhook = function(request, response) {
         });
 
       }
-<<<<<<< HEAD
     }
   }} else {
-=======
-    } else {
->>>>>>> parent of c7a4b9f... commits
+
       client.messages.create({
         body: 'Whoops. Could you be a little more specific? I didn\'t get that.',
         to: request.body.From,
