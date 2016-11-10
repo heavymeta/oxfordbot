@@ -130,7 +130,7 @@ function process(key,value) {
 
 // Handle a POST request from Twilio
 exports.receiveMessageWebhook = function(request, response) {
-  response.sendStatus(200);
+
   words = ""
   var message = request.body.Body;
   var image = request.body.MediaUrl0;
@@ -147,7 +147,7 @@ exports.receiveMessageWebhook = function(request, response) {
     sendDateResponse(parsedTimeLocal);
   }
 
-
+response.sendStatus(200);
 
 };
 
