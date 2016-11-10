@@ -59,18 +59,8 @@ exports.sendMessage = function(request, response) {
 
 // Show a page displaying text/picture messages that have been sent to this
 // web application, which we have stored in the database
-exports.testParsing = function(r, response) {
 
-  var form = {
-      'url': "https://api.twilio.com/2010-04-01/Accounts/AC9da8e02953dc14e2cf46f01c513f5592/Messages/MM79d849214fc1d4f0a59ba93f13fd6e21/Media/ME6054833a65fa309940aa464fb47ecac3"
-  };
-
-
-  var formData = querystring.stringify(form);
-  var contentLength = formData.length;
-
-  console.log(form);
-  console.log(formData);
+function photoParse(response) {
 
   request({
       headers: {
@@ -144,6 +134,9 @@ exports.receiveMessageWebhook = function(request, response) {
           }
         });
       } else {
+        if (image != null) {
+          photoParse(request);
+        } else {
       if (parsedTimeLocal != "Invalid date") {
       // Look for buddy reminders to set
       var buddy = findBuddy(message);
@@ -184,10 +177,10 @@ exports.receiveMessageWebhook = function(request, response) {
           console.log("Message sent");
         }
       });
-
+      if (buddy) {
         client.messages.create({
-          body: 'Hey ' + buddy.name + '! Your friend Ian asked for you to call and remind them to do something at ' + parsedTimeLocal,
-          to: buddy.number,
+          body: 'I\'ll also text your friend, ' + buddy.name + ', and ask them to remind you 30 minutes ahead of time.',
+          to: request.body.From,
           from: config.twilioNumber
           //mediaUrl: 'https://demo.twilio.com/owl.png'
         }, function(err, message) {
@@ -201,7 +194,6 @@ exports.receiveMessageWebhook = function(request, response) {
       }
     }
   }} else {
-
       client.messages.create({
         body: 'Whoops. Could you be a little more specific? I didn\'t get that.',
         to: request.body.From,
