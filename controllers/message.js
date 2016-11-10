@@ -53,8 +53,29 @@ morningParser.extract = function(text, ref, match, opt) {
     });
 }
 
+var nightParser = new chrono.Parser();
+
+// Provide search pattern
+nightParser.pattern = function () { return /night/i }
+
+// This function will be called when matched pattern is found
+nightParser.extract = function(text, ref, match, opt) {
+
+    // Return a parsed result, that is 25 December
+    return new chrono.ParsedResult({
+        ref: ref,
+        text: match[0],
+        index: match.index,
+        start: {
+            hour: 19,
+            minute: 30,
+        }
+    });
+}
+
 custom = new chrono.Chrono();
-custom.parsers.push(morningParser);
+custom.parsers.push(nightParser);
+
 
 // Render a form that will allow the user to send a text (or picture) message
 // to a phone number they entered.
@@ -195,7 +216,7 @@ var message;
         console.log("success");
       }
     });
-    response.sendStatus(200);
+
 }
 
 // Find all the reminders that have not been sent
