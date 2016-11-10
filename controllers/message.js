@@ -61,6 +61,7 @@ exports.sendMessage = function(request, response) {
 // web application, which we have stored in the database
 
 function photoParse(img) {
+  console.log("Image: " + img);
 
   request({
       headers: {
