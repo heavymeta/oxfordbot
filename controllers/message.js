@@ -200,7 +200,7 @@ function sendDateResponse(time) {
 var message;
 
     if (time != "Invalid date") {
-      message = "Got it. I'll add an reminder for that on" + time + "to your agenda.";
+      message = "Got it. I'll add a reminder for that on" + time + "to your agenda.";
     } else {
       message = "Hmm. I didn't catch a date in that. Try again?";
     }
