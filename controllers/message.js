@@ -177,6 +177,7 @@ function process(key,value) {
 exports.receiveMessageWebhook = function(request, response) {
 
   words = ""
+  number = ""
   number = request.body.From;
   var message = request.body.Body;
   var image = request.body.MediaUrl0;
