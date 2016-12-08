@@ -1,7 +1,7 @@
 {
   "name": "oxfordbot",
   "version": "1.0.0",
-  "description": "A text message implementation of Oxford",
+  "description": "A SMS implementation of Oxford",
   "main": "index.js",
   "scripts": {
     "test": "mocha test"
